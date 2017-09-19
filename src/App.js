@@ -10,6 +10,7 @@ class App extends Component {
       {
         "id": 1,
         "subject": "You can't input the protocol without calculating the mobile RSS protocol!",
+        "selected": false,
         "read": false,
         "starred": true,
         "labels": ["dev", "personal"]
@@ -17,6 +18,7 @@ class App extends Component {
       {
         "id": 2,
         "subject": "connecting the system won't do anything, we need to input the mobile AI panel!",
+        "selected": false,
         "read": false,
         "starred": false,
         "labels": []
@@ -24,6 +26,7 @@ class App extends Component {
       {
         "id": 3,
         "subject": "Use the 1080p HTTP feed, then you can parse the cross-platform hard drive!",
+        "selected": false,
         "read": false,
         "starred": true,
         "labels": ["dev"]
@@ -31,6 +34,7 @@ class App extends Component {
       {
         "id": 4,
         "subject": "We need to program the primary TCP hard drive!",
+        "selected": false,
         "read": true,
         "starred": false,
         "labels": []
@@ -38,6 +42,7 @@ class App extends Component {
       {
         "id": 5,
         "subject": "If we override the interface, we can get to the HTTP feed through the virtual EXE interface!",
+        "selected": false,
         "read": false,
         "starred": false,
         "labels": ["personal"]
@@ -45,6 +50,7 @@ class App extends Component {
       {
         "id": 6,
         "subject": "We need to back up the wireless GB driver!",
+        "selected": false,
         "read": true,
         "starred": true,
         "labels": []
@@ -52,6 +58,7 @@ class App extends Component {
       {
         "id": 7,
         "subject": "We need to index the mobile PCI bus!",
+        "selected": false,
         "read": true,
         "starred": false,
         "labels": ["dev", "personal"]
@@ -59,6 +66,7 @@ class App extends Component {
       {
         "id": 8,
         "subject": "If we connect the sensor, we can get to the HDD port through the redundant IB firewall!",
+        "selected": false,
         "read": true,
         "starred": true,
         "labels": []
@@ -71,10 +79,25 @@ class App extends Component {
 
   assignCheckSymbol = () => {
     if(this.state.statefulCheckedCount === this.state.emails.length) {
-      setState()
+      let emails = this.state.emails;
+      for(let i = 0; i < emails.length; i++){
+        emails[i].selected = false;
+      }
+      this.setState({emails: emails})
+      let count = this.state.statefulCheckedCount
+      count = 0;
+      this.setState({statefulCheckedCount: count})
     }
-    if(this.state.statefulCheckedCount < this.state.emails.length && checkedCount > 0) "fa fa-minus-square-o";
-    if(this.state.statefulCheckedCount == 0) "fa fa-square-o"
+    if(this.state.statefulCheckedCount < this.state.emails.length) {
+      let emails = this.state.emails;
+      for(let i = 0; i < emails.length; i++){
+        emails[i].selected = true;
+      }
+      this.setState({emails: emails})
+      let count = this.state.statefulCheckedCount;
+      count = emails.length;
+      this.setState({statefulCheckedCount: count})
+    }
   }
 
 
@@ -105,6 +128,7 @@ class App extends Component {
     for(let i=0; i < emails.length; i++){
       if (emails[i].selected == true){
         emails[i].read = false;
+        emails[i].selected = false;
         }
       }
     this.setState({emails: emails})
@@ -119,9 +143,47 @@ class App extends Component {
     for(let i=0; i < emails.length; i++){
       if (emails[i].selected == true){
         emails[i].read = true;
+        emails[i].selected = false;
       }
     }
     this.setState({emails: emails})
+  }
+
+  unread = () => {
+    let emails = this.state.emails;
+    let result = emails.reduce((acc, email) => {
+      if (email.read === false){
+        console.log('acc', acc)
+        acc++;
+      }
+      return acc
+    }, 0)
+    return result
+
+  }
+
+  delete = () => {
+    console.log('entered delete handler')
+    let emails = this.state.emails;
+    let toSave = [];
+    for(let i=0; i < emails.length; i++){
+      if (emails[i].selected == false){
+        toSave = toSave.concat(emails[i])
+      }
+    }
+  this.setState({emails: toSave})
+  }
+
+  apply = () => {
+    console.log('entered apply handler')
+    let emails = this.state.emails;
+    let toApply = [];
+    for(let i=0; i < emails.length; i++){
+      if (emails[i].selected == false){
+        toApply = toApply.concat(emails[i])
+      }
+    }
+  this.setState({emails: toApply})
   }
 
 
@@ -148,7 +210,9 @@ class App extends Component {
           markRead={this.markRead}
           assignCheckSymbol={this.assignCheckSymbol}
           statefulCheckedCount={this.state.statefulCheckedCount}
-          emails={this.state.emails}/>
+          emails={this.state.emails}
+          delete={this.delete}
+          unread={this.unread}/>
 
         <Messages
           markStar={this.markStar}

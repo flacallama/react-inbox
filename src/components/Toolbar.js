@@ -6,7 +6,7 @@ class Toolbar extends React.Component {
       <div className="row toolbar">
         <div className="col-md-12">
           <p className="pull-right">
-            <span className="badge badge">2</span>
+            <span className="badge badge">{this.props.unread()}</span>
             unread messages
           </p>
 
@@ -24,7 +24,7 @@ class Toolbar extends React.Component {
 
           </button>
 
-          <select className="form-control label-select">
+          <select value={optionsState} className="form-control label-select">
             <option>Apply label</option>
             <option value="dev">dev</option>
             <option value="personal">personal</option>
@@ -38,7 +38,7 @@ class Toolbar extends React.Component {
             <option value="gschool">gschool</option>
           </select>
 
-          <button className="btn btn-default">
+          <button onClick={this.props.delete}  className="btn btn-default">
             <i className="fa fa-trash-o"></i>
           </button>
         </div>

@@ -8,7 +8,7 @@ const Message = ({idx, email, checkItemFun, makeRead, markStar}) => {
           <div className="col-xs-1">
             <div className="row">
               <div className="col-xs-2">
-                <input type="checkbox" onChange={(e) => checkItemFun(idx, e) } />
+                <input checked={email.selected} type="checkbox" onChange={(e) => checkItemFun(idx, e) } />
               </div>
               <div className="col-xs-2">
                 <i className={email.starred ? "star fa fa-star" : "star fa fa-star-o"} onClick={(e) => markStar(idx, e)}></i>
