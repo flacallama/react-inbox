@@ -10,21 +10,21 @@ class Toolbar extends React.Component {
             unread messages
           </p>
 
-          <button className="btn btn-default">
+          <button disabled={this.props.disabled()} className="btn btn-default" >
             <i className={this.props.statefulCheckedCount == 0 ? "fa fa-square-o" : (this.props.statefulCheckedCount == this.props.emails.length) ? "fa fa-check-square-o" : "fa fa-minus-square-o"}
            onClick={this.props.assignCheckSymbol}></i>
           </button>
 
-          <button className="btn btn-default" onClick={this.props.markRead}>
+          <button disabled={this.props.disabled()} className="btn btn-default" onClick={this.props.markRead}>
             Mark As Read
           </button>
 
-          <button className="btn btn-default" onClick={this.props.markUnread}>
+          <button disabled={this.props.disabled()} className="btn btn-default" onClick={this.props.markUnread}>
             Mark As Unread
 
           </button>
 
-          <select value={optionsState} className="form-control label-select">
+          <select className="form-control label-select">
             <option>Apply label</option>
             <option value="dev">dev</option>
             <option value="personal">personal</option>

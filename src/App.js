@@ -149,16 +149,33 @@ class App extends Component {
     this.setState({emails: emails})
   }
 
+// counter for unread emails
   unread = () => {
     let emails = this.state.emails;
     let result = emails.reduce((acc, email) => {
       if (email.read === false){
-        console.log('acc', acc)
         acc++;
       }
       return acc
     }, 0)
     return result
+
+  }
+
+// disables menu buttons when no emails selected
+  disabled = () => {
+    let emails = this.state.emails
+    let result = emails.reduce((acc, email) =>{
+      if(email.selected === true){
+        acc ++;
+      }
+      return acc;
+    }, 0)
+    if(result > 0) {
+      return true;
+    } else {
+      return false;
+    }
 
   }
 
@@ -212,7 +229,8 @@ class App extends Component {
           statefulCheckedCount={this.state.statefulCheckedCount}
           emails={this.state.emails}
           delete={this.delete}
-          unread={this.unread}/>
+          unread={this.unread}
+          disabled={this.disabled}/>
 
         <Messages
           markStar={this.markStar}
